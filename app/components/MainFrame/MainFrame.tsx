@@ -1,7 +1,7 @@
 "use client";
 import { PageControls } from "../PageControls/PageControls";
 import { ScanResults } from "../ScanResults/ScanResults";
-import { useMainFrameController } from "./MainFrameController";
+import { useMainFrameController } from "./MainFrameViewModel";
 
 export function MainFrame() {
   const { getScanResults, resultsFromScan } = useMainFrameController();
