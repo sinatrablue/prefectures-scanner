@@ -1,47 +1,69 @@
 import puppeteer from "puppeteer";
 import { ScanResult } from "./types";
+import {
+  KEY_WORDS_TO_SEARCH,
+  PATTERN_TO_SEARCH,
+  PrefecturesWebsites,
+  SEARCH_BAR_SELECTOR,
+  SEARCH_BUTTON_SELECTOR,
+} from "./constants";
 
 export const scanPrefecturesWebsites = async () => {
-  const res: ScanResult = await scanOnePrefecture(
-    "https://developer.chrome.com/"
-  );
+  const res: ScanResult = await scanOnePrefecture(PrefecturesWebsites[0]);
 
   return res;
 };
 
 const scanOnePrefecture = async (websiteURL: string) => {
-  // Launch the browser and open a new blank page
-  const browser = await puppeteer.launch();
-  const page = await browser.newPage();
+  try {
+    // Launch the browser and open a new blank page
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
 
-  // Navigate the page to a URL
-  await page.goto(websiteURL);
+    // Navigate the page to a URL
+    await page.goto(websiteURL);
 
-  // Set screen size
-  await page.setViewport({ width: 1080, height: 1024 });
+    // Set screen size
+    await page.setViewport({ width: 1080, height: 1024 });
 
-  // Type into search box
-  await page.type(".devsite-search-field", "automate beyond recorder");
+    // Type into search box
+    await page.type(SEARCH_BAR_SELECTOR, PATTERN_TO_SEARCH);
+    console.log("--> search bar typing ok");
+    const searchBtn = await page.waitForSelector(SEARCH_BUTTON_SELECTOR);
+    console.log("--> search button found");
+    await searchBtn?.click();
+    console.log("--> search click ok");
 
-  // Wait and click on first result
-  const searchResultSelector = ".devsite-result-item-link";
-  await page.waitForSelector(searchResultSelector);
-  await page.click(searchResultSelector);
+    const results: string[] = [];
+    await Promise.all(
+      KEY_WORDS_TO_SEARCH.map(async keyWord => {
+        try {
+          const textSelector = await page.waitForSelector(`text/${keyWord}`);
+          console.log("--> text selector found");
+          const fullTitle = await textSelector?.evaluate(el => el.textContent);
+          // Print the full title
+          console.log("--> The title of the card is : ", fullTitle);
+          fullTitle && results.push(fullTitle);
+        } catch (error) {
+          console.log("error: ", error);
+          console.error("----> Most probably unfound text selector");
+        }
+      })
+    );
 
-  // Locate the full title with a unique string
-  const textSelector = await page.waitForSelector(
-    "text/Customize and automate"
-  );
-  const fullTitle = await textSelector?.evaluate(el => el.textContent);
+    await browser.close();
 
-  // Print the full title
-  console.log('The title of this blog post is "%s".', fullTitle);
-
-  await browser.close();
-
-  return {
-    isSuccess: !!fullTitle,
-    resultStr: fullTitle,
-    analyzedURL: websiteURL,
-  } as ScanResult;
+    return {
+      isSuccess: results.length > 0,
+      resultStr: results.join("\n"),
+      analyzedURL: websiteURL,
+    } as ScanResult;
+  } catch (error) {
+    console.log("error: ", error);
+    return {
+      isSuccess: false,
+      resultStr: "There was an error",
+      analyzedURL: websiteURL,
+    };
+  }
 };
