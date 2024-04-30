@@ -1,6 +1,6 @@
 export type ScanResult = {
   isSuccess: boolean;
-  resultStr: string;
+  results: string[];
   analyzedURL: string;
 };
 export type ScanResults = ScanResult[];
