@@ -1,4 +1,4 @@
-import { MainFrame } from "./components/MainFrame/MainFrame";
+import MainFrame from "./MainFrame/page";
 
 export default function Home() {
   return (
