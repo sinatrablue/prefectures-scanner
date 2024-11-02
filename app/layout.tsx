@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Exo_2 } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
+import AVES_Logo from "./assets/2021-avesfrance-court-noir-avatar.jpg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,12 +20,16 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <div className="flex flex-col h-screen">
-          <div className="flex justify-center py-5 shadow-sm shrink-0">
-            <h1 className="font-bold text-2xl text-violet-950">
-              PREFECTURES SCANNER
+          <div className="flex p-4 shadow-sm shrink-0 items-center justify-between">
+            <Image alt="logo" src={AVES_Logo} height={50} width={50} />
+            <h1 className="font-bold text-2xl/5 tracking-wide uppercase text-violet-950">
+              Scanner de consultations publiques
             </h1>
+            <div></div>
           </div>
-          <div className="grow">{children}</div>
+          <main className="grow bg-violet-50 flex justify-center py-5">
+            {children}
+          </main>
         </div>
       </body>
     </html>
