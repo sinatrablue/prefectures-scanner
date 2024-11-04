@@ -9,12 +9,14 @@ export const useResearchPageViewController = () => {
   const [keyWords, setKeyWords] = useState(DEFAULT_KEY_WORDS);
 
   const pushSearchedWord = () => {
-    setSearchWords(prev => prev.concat(searchedWordValue));
+    !searchedWords.includes(searchedWordValue) &&
+      setSearchWords(prev => prev.concat(searchedWordValue));
     setSearchedWordValue("");
   };
 
   const pushKeyWord = () => {
-    setKeyWords(prev => prev.concat(keyWordValue));
+    !keyWords.includes(keyWordValue) &&
+      setKeyWords(prev => prev.concat(keyWordValue));
     setKeyWordValue("");
   };
 

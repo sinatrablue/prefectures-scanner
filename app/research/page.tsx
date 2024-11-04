@@ -1,10 +1,13 @@
 "use client";
 
 import { LongArrowDownRight, Xmark } from "iconoir-react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { cn } from "../utils/cn";
+import { DEFAULT_KEY_WORDS, DEFAULT_SEARCHED_WORDS } from "./constants";
 import { useResearchPageViewController } from "./vue_controller";
 
 const ResearchPage = () => {
+  const router = useRouter();
   const {
     searchedWordValue,
     setSearchedWordValue,
@@ -34,6 +37,7 @@ const ResearchPage = () => {
               className="h-10 w-full focus:outline-none"
             />
             <button
+              disabled={!searchedWordValue}
               onClick={pushSearchedWord}
               className="rounded-full p-2 hover:bg-gray-100"
             >
@@ -44,14 +48,16 @@ const ResearchPage = () => {
             <div className="flex gap-4">
               {searchedWords.map(word => (
                 <div
-                  className="flex items-center gap-2 rounded bg-slate-200 px-2 py-1"
+                  className={cn(
+                    "flex items-center gap-2 rounded px-2 py-1",
+                    DEFAULT_SEARCHED_WORDS.includes(word)
+                      ? "bg-slate-300"
+                      : "bg-slate-100",
+                  )}
                   key={word}
                 >
                   {word}
-                  <button
-                    className="rounded-full p-1 hover:bg-slate-300"
-                    onClick={() => removeSearchedWord(word)}
-                  >
+                  <button onClick={() => removeSearchedWord(word)}>
                     <Xmark />
                   </button>
                 </div>
@@ -73,6 +79,7 @@ const ResearchPage = () => {
               className="h-10 w-full focus:outline-none"
             />
             <button
+              disabled={!keyWordValue}
               onClick={pushKeyWord}
               className="rounded-full p-2 hover:bg-gray-100"
             >
@@ -83,14 +90,16 @@ const ResearchPage = () => {
             <div className="flex gap-4">
               {keyWords.map(word => (
                 <div
-                  className="flex items-center gap-2 rounded bg-slate-200 px-2 py-1"
+                  className={cn(
+                    "flex items-center gap-2 rounded px-2 py-1",
+                    DEFAULT_KEY_WORDS.includes(word)
+                      ? "bg-slate-300"
+                      : "bg-slate-100",
+                  )}
                   key={word}
                 >
                   {word}
-                  <button
-                    className="rounded-full p-1 hover:bg-slate-300"
-                    onClick={() => removeKeyWord(word)}
-                  >
+                  <button onClick={() => removeKeyWord(word)}>
                     <Xmark />
                   </button>
                 </div>
@@ -99,12 +108,18 @@ const ResearchPage = () => {
           )}
         </div>
       </div>
-      <Link
-        href={`results`}
-        className="w-fit self-center rounded-md bg-violet-900 px-5 py-2 text-white hover:bg-violet-800 hover:shadow-xl"
+      <button
+        disabled={searchedWords.length === 0 || keyWords.length === 0}
+        onClick={() => router.push(`results/`)}
+        className={cn(
+          "w-fit self-center rounded-md px-8 py-3 text-lg/6 tracking-wider text-white",
+          searchedWords.length === 0 || keyWords.length === 0
+            ? "bg-slate-400"
+            : "bg-violet-900 hover:bg-violet-800 hover:shadow-lg",
+        )}
       >
         {"C'est parti"}
-      </Link>
+      </button>
     </div>
   );
 };
