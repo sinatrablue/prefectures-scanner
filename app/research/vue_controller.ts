@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DEFAULT_SEARCHED_WORDS, DEFAULT_KEY_WORDS } from "./constants";
+import { DEFAULT_KEY_WORDS, DEFAULT_SEARCHED_WORDS } from "./constants";
 
 export const useResearchPageViewController = () => {
   const [searchedWordValue, setSearchedWordValue] = useState("");
