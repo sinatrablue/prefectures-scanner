@@ -110,7 +110,11 @@ const ResearchPage = () => {
       </div>
       <button
         disabled={searchedWords.length === 0 || keyWords.length === 0}
-        onClick={() => router.push(`results/`)}
+        onClick={() =>
+          router.push(
+            `results?searchedWords=${searchedWords}&keyWords=${keyWords}`,
+          )
+        }
         className={cn(
           "w-fit self-center rounded-md px-8 py-3 text-lg/6 tracking-wider text-white",
           searchedWords.length === 0 || keyWords.length === 0
