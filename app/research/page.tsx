@@ -15,9 +15,9 @@ const ResearchPage = () => {
     keyWordValue,
     setKeyWordValue,
     pushKeyWord,
-    keyWords,
+    keyWordsToLookFor,
     removeKeyWord,
-    searchedWords,
+    expressionsToSearch,
     removeSearchedWord,
   } = useResearchPageViewController();
 
@@ -44,9 +44,9 @@ const ResearchPage = () => {
               <LongArrowDownRight />
             </button>
           </div>
-          {searchedWords.length > 0 && (
+          {expressionsToSearch.length > 0 && (
             <div className="flex gap-4">
-              {searchedWords.map(word => (
+              {expressionsToSearch.map(word => (
                 <div
                   className={cn(
                     "flex items-center gap-2 rounded px-2 py-1",
@@ -66,7 +66,7 @@ const ResearchPage = () => {
           )}
         </div>
 
-        {/* Keywords on page input */}
+        {/* keyWordsToLookFor on page input */}
         <div className="flex flex-col gap-2">
           <span className="text-xs uppercase tracking-wider text-gray-500">
             Mots-clé pour identifier des articles de consultation
@@ -86,9 +86,9 @@ const ResearchPage = () => {
               <LongArrowDownRight />
             </button>
           </div>
-          {keyWords.length > 0 && (
+          {keyWordsToLookFor.length > 0 && (
             <div className="flex gap-4">
-              {keyWords.map(word => (
+              {keyWordsToLookFor.map(word => (
                 <div
                   className={cn(
                     "flex items-center gap-2 rounded px-2 py-1",
@@ -109,15 +109,17 @@ const ResearchPage = () => {
         </div>
       </div>
       <button
-        disabled={searchedWords.length === 0 || keyWords.length === 0}
+        disabled={
+          expressionsToSearch.length === 0 || keyWordsToLookFor.length === 0
+        }
         onClick={() =>
           router.push(
-            `results?searchedWords=${searchedWords}&keyWords=${keyWords}`,
+            `results?expressionsToSearch=${expressionsToSearch}&keyWordsToLookFor=${keyWordsToLookFor}`,
           )
         }
         className={cn(
           "w-fit self-center rounded-md px-8 py-3 text-lg/6 tracking-wider text-white",
-          searchedWords.length === 0 || keyWords.length === 0
+          expressionsToSearch.length === 0 || keyWordsToLookFor.length === 0
             ? "bg-slate-400"
             : "bg-violet-900 hover:bg-violet-800 hover:shadow-lg",
         )}

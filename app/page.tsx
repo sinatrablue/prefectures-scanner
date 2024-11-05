@@ -6,19 +6,19 @@ const exo2 = Exo_2({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <div className="flex h-fit w-1/2 flex-col gap-20 rounded-lg bg-white px-6 py-10">
-      <div className="flex flex-col gap-8">
+    <div className="flex h-fit w-1/2 flex-col gap-16 rounded-lg bg-white px-6 py-10">
+      <div className="flex flex-col gap-20">
         <h1
           className={cn(
             exo2.className,
             "text-5xl font-extrabold tracking-wider text-violet-950",
           )}
         >
-          Voici la première version du scanner de préfectures
+          Voici la première version du scanner de préfectures !
         </h1>
         <h2 className="text-xl">
-          Puppeteer et moi, on va tâcher de trouver des consultations publiques
-          pour vous. 🚀
+          <span className="font-semibold text-violet-900">Puppeteer</span> et
+          moi, on va tâcher de trouver des consultations publiques pour vous. 🚀
         </h2>
       </div>
 

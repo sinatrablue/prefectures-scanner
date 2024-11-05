@@ -5,18 +5,20 @@ export const useResearchPageViewController = () => {
   const [searchedWordValue, setSearchedWordValue] = useState("");
   const [keyWordValue, setKeyWordValue] = useState("");
 
-  const [searchedWords, setSearchWords] = useState(DEFAULT_SEARCHED_WORDS);
-  const [keyWords, setKeyWords] = useState(DEFAULT_KEY_WORDS);
+  const [expressionsToSearch, setSearchWords] = useState(
+    DEFAULT_SEARCHED_WORDS,
+  );
+  const [keyWordsToLookFor, setkeyWordsToLookFor] = useState(DEFAULT_KEY_WORDS);
 
   const pushSearchedWord = () => {
-    !searchedWords.includes(searchedWordValue) &&
+    !expressionsToSearch.includes(searchedWordValue) &&
       setSearchWords(prev => prev.concat(searchedWordValue));
     setSearchedWordValue("");
   };
 
   const pushKeyWord = () => {
-    !keyWords.includes(keyWordValue) &&
-      setKeyWords(prev => prev.concat(keyWordValue));
+    !keyWordsToLookFor.includes(keyWordValue) &&
+      setkeyWordsToLookFor(prev => prev.concat(keyWordValue));
     setKeyWordValue("");
   };
 
@@ -24,7 +26,7 @@ export const useResearchPageViewController = () => {
     setSearchWords(prev => prev.filter(val => val !== word));
 
   const removeKeyWord = (word: string) =>
-    setKeyWords(prev => prev.filter(val => val !== word));
+    setkeyWordsToLookFor(prev => prev.filter(val => val !== word));
 
   return {
     searchedWordValue,
@@ -33,8 +35,8 @@ export const useResearchPageViewController = () => {
     keyWordValue,
     setKeyWordValue,
     pushKeyWord,
-    searchedWords,
-    keyWords,
+    expressionsToSearch,
+    keyWordsToLookFor,
     removeSearchedWord,
     removeKeyWord,
   };

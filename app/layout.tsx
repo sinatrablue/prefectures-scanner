@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 import AVES_Logo from "./assets/2021-avesfrance-court-noir-avatar.jpg";
 import "./globals.css";
 
@@ -21,7 +22,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="flex h-screen flex-col">
           <div className="flex shrink-0 items-center justify-between p-4 shadow-sm">
-            <Image alt="logo" src={AVES_Logo} height={50} width={50} />
+            <Link href="/">
+              <Image alt="logo" src={AVES_Logo} height={50} width={50} />
+            </Link>
             <h1 className="text-2xl/5 font-bold uppercase tracking-wide text-violet-950">
               Scanner de consultations publiques
             </h1>
